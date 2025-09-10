@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import UserProfileCard from "../components/UserProfileCard";
 
 const Home = () => {
   return (
-    <div>
-      i m home
+    <div className="flex flex-col min-h-screen">
+      
+      <main className="flex-grow">
+       <UserProfileCard/>
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

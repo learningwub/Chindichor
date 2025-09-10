@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 const Navbar = () => {
@@ -6,18 +7,18 @@ const Navbar = () => {
     { name: "Products", path: "/product" },
     { name: "Contact", path: "/contact" },
     { name: "About", path: "/about" },
+    { name: "", path: "/login" },
   ];
 
   const ref = useRef(null);
-
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(ref.current.scrollTop > 10);
+      setIsScrolled(window.scrollY > 10);
     };
-    ref.current.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -32,16 +33,19 @@ const Navbar = () => {
         }`}
       >
         {/* Logo */}
+        <Link to='/'>
+
         <h1 className="flex items-center gap-2 text-3xl font-bold text-white">
           Lumina
         </h1>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-4 lg:gap-8">
           {navLinks.map((link, i) => (
-            <a
+            <Link
               key={i}
-              href={link.path}
+              to={link.path}
               className={`group flex flex-col gap-0.5 ${
                 isScrolled ? "text-gray-700" : "text-white"
               }`}
@@ -52,38 +56,21 @@ const Navbar = () => {
                   isScrolled ? "bg-gray-700" : "bg-white"
                 } h-0.5 w-0 group-hover:w-full transition-all duration-300`}
               />
-            </a>
+            </Link>
           ))}
-          <button
-            className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
-              isScrolled ? "text-black" : "text-white"
-            } transition-all`}
-          >
-            New Launch
-          </button>
         </div>
 
         {/* Desktop Right */}
         <div className="hidden md:flex items-center gap-4">
-          <svg
-            className={`h-6 w-6 text-white transition-all duration-500 ${
-              isScrolled ? "invert" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <button
-            className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${
-              isScrolled ? "text-white bg-black" : "bg-white text-black"
-            }`}
-          >
-            Login
-          </button>
+          <Link to="/login">
+            <button
+              className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${
+                isScrolled ? "text-white bg-black" : "bg-white text-black"
+              }`}
+            >
+              Login
+            </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -125,18 +112,16 @@ const Navbar = () => {
           </button>
 
           {navLinks.map((link, i) => (
-            <a key={i} href={link.path} onClick={() => setIsMenuOpen(false)}>
+            <Link key={i} to={link.path} onClick={() => setIsMenuOpen(false)}>
               {link.name}
-            </a>
+            </Link>
           ))}
 
-          <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
-            New Launch
-          </button>
-
-          <button className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
-            Login
-          </button>
+          <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+            <button className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
+              Login
+            </button>
+          </Link>
         </div>
       </nav>
     </div>
